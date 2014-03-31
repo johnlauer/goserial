@@ -85,6 +85,8 @@ type Config struct {
 
 	// CRLFTranslate bool
 	// TimeoutStuff int
+	RtsOn bool
+	DtrOn bool
 }
 
 // OpenPort opens a serial port with the specified configuration

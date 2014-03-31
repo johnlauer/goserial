@@ -4,8 +4,11 @@ package serial
 
 import (
 	"fmt"
+	"log"
+	//"github.com/hotei/bits"
 	"io"
 	"os"
+	"strconv"
 	"sync"
 	"syscall"
 	"unsafe"
@@ -28,6 +31,39 @@ type structDCB struct {
 	XonChar, XoffChar, ErrorChar, EofChar, EvtChar byte
 	wReserved1                                     uint16
 }
+
+/*
+type _DCB struct {
+  DWORD DCBlength
+  DWORD BaudRate
+  DWORD fBinary  :1
+  DWORD fParity  :1
+  DWORD fOutxCtsFlow  :1
+  DWORD fOutxDsrFlow  :1
+  DWORD fDtrControl  :2
+  DWORD fDsrSensitivity  :1
+  DWORD fTXContinueOnXoff  :1
+  DWORD fOutX  :1
+  DWORD fInX  :1
+  DWORD fErrorChar  :1
+  DWORD fNull  :1
+  DWORD fRtsControl  :2 /* 13 and 14th bit, so [12:13]
+  DWORD fAbortOnError  :1
+  DWORD fDummy2  :17
+  WORD  wReserved
+  WORD  XonLim
+  WORD  XoffLim
+  BYTE  ByteSize
+  BYTE  Parity
+  BYTE  StopBits
+  char  XonChar
+  char  XoffChar
+  char  ErrorChar
+  char  EofChar
+  char  EvtChar
+  WORD  wReserved1
+}
+*/
 
 type structTimeouts struct {
 	ReadIntervalTimeout         uint32
@@ -167,6 +203,9 @@ func setCommState(h syscall.Handle, baud int) error {
 
 	params.flags[0] = 0x01  // fBinary
 	params.flags[0] |= 0x10 // Assert DSR
+	params.flags[1] = 0x10  // RTS is on
+	log.Println("Byte val of commstat flags[0]:", strconv.FormatInt(int64(params.flags[0]), 2))
+	log.Println("Byte val of commstat flags[1]:", strconv.FormatInt(int64(params.flags[1]), 2))
 
 	params.BaudRate = uint32(baud)
 	params.ByteSize = 8

@@ -1,3 +1,7 @@
+Forked version of github.com/tarm/goserial
+
+This version supports opening a port with RtsOn or DtrOn.
+
 GoSerial
 ========
 A simple go package to allow you to read and write from the
