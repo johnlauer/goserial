@@ -6,6 +6,14 @@ GoSerial
 ========
 A simple go package to allow you to read and write from the
 serial port as a stream of bytes.
+Modifications to this fork
+-----------------------
+Added the ability to turn on RTS and DTR. This is done by passing in a 
+config struct that is setup to support future flags as needed. In particular
+the RTS being configured as on was key in supporting the TinyG for the
+serial-port-json-server.
+
+(Original Readme Below)
 
 Details
 -------
